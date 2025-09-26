@@ -21,14 +21,15 @@
     </div>
 
     <nav>
-      <button class="btn primary" data-go="home">الرئيسية</button>
-      <button class="btn" data-go="campaigns">الحملات</button>
-      <button class="btn" data-go="analytics">التحليلات</button>
-      <button class="btn" data-go="roadmap">خارطة الطريق</button>
-      <button class="btn" data-go="settings">الإعدادات</button>
+      <!-- أزرار تُحدّث الهاش لضمان التنقّل حتى لو تعطّل جزء من JS -->
+      <button class="btn primary" data-go="home" onclick="location.hash='#home'">الرئيسية</button>
+      <button class="btn" data-go="campaigns" onclick="location.hash='#campaigns'">الحملات</button>
+      <button class="btn" data-go="analytics" onclick="location.hash='#analytics'">التحليلات</button>
+      <button class="btn" data-go="roadmap" onclick="location.hash='#roadmap'">خارطة الطريق</button>
+      <button class="btn" data-go="settings" onclick="location.hash='#settings'">الإعدادات</button>
 
       <!-- Currency switcher -->
-      <select id="ccySelect" class="ccy-select">
+      <select id="ccySelect" class="ccy-select" aria-label="تغيير العملة">
         <option value="MAD">MAD (DH)</option>
         <option value="USD">USD ($)</option>
         <option value="EUR">EUR (€)</option>
@@ -59,7 +60,7 @@
       </div>
 
       <div class="row">
-        <button class="btn" data-go="campaigns">إدارة الحملات</button>
+        <button class="btn" data-go="campaigns" onclick="location.hash='#campaigns'">إدارة الحملات</button>
         <button id="exportPDF" class="btn">تصدير تقرير (PDF)</button>
       </div>
     </section>
@@ -149,20 +150,46 @@
       <div class="grid cols-2 gap">
         <div class="panel">
           <h3 class="m0">CTR عبر الشهور</h3>
-          <div class="bar">
-            <div class="bar-fill" style="width:64%"></div>
-          </div>
+          <div class="bar"><div class="bar-fill" style="width:64%"></div></div>
           <div class="muted">المتوسط التقريبي: 3.4%</div>
         </div>
 
         <div class="panel">
           <h3 class="m0">CPC — متوسط تقديري</h3>
-          <div class="bar">
-            <div class="bar-fill" style="width:32%"></div>
-          </div>
+          <div class="bar"><div class="bar-fill" style="width:32%"></div></div>
           <div class="muted">المتوسط التقريبي: 2.1</div>
         </div>
       </div>
+
+      <!-- Channel Summary -->
+<div class="panel">
+  <h3 class="m0">ملخص القنوات</h3>
+  <div class="list">
+    <div class="item panel row" style="justify-content:space-between">
+      <div><strong>Meta</strong> — Facebook/Instagram</div>
+      <div>
+        <span class="badge">CPC 1.9 درهم</span>
+        <span class="badge success">CTR 3.8%</span>
+      </div>
+    </div>
+
+    <div class="item panel row" style="justify-content:space-between">
+      <div><strong>TikTok</strong> — Short Video</div>
+      <div>
+        <span class="badge">CPC 1.4 درهم</span>
+        <span class="badge success">CTR 4.5%</span>
+      </div>
+    </div>
+
+    <div class="item panel row" style="justify-content:space-between">
+      <div><strong>LinkedIn</strong> — B2B</div>
+      <div>
+        <span class="badge">CPC 3.2 درهم</span>
+        <span class="badge warn">CTR 1.9%</span>
+      </div>
+    </div>
+  </div>
+</div>
 
       <div class="panel">
         <h3 class="m0">ملاحظات تحسين</h3>

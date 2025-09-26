@@ -13,11 +13,14 @@ body{font-family:sans-serif;background:#0b1424;color:#f3f6fa;line-height:1.6}
 
 /* Header */
 header{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:220px}
 .logo-frame{width:44px;height:44px;border-radius:12px;overflow:hidden;background:#1e3a8a;display:flex;align-items:center;justify-content:center}
 .logo-img{width:100%;height:100%;object-fit:cover}
 .brand-title{font-weight:900;font-size:18px}
 .brand-sub{color:#a0aec0;font-size:12px}
+
+/* Nav resilience */
+header nav{display:flex;gap:8px;flex-wrap:wrap}
 
 /* Buttons */
 .btn{padding:10px 14px;border-radius:12px;border:1px solid #334155;background:#0f172a;color:#f3f6fa;cursor:pointer;font-size:14px}
@@ -52,3 +55,13 @@ textarea{resize:vertical}
 
 /* Footer */
 footer{text-align:center;padding:20px;color:#94a3b8;font-size:12px;border-top:1px solid #1e293b;margin-top:40px}
+
+/* Helpers */
+.m0{margin:0}
+.muted{color:#94a3b8}
+.small{font-size:12px}
+.badge{background:#0f172a;border:1px solid #334155;border-radius:999px;padding:6px 10px;font-size:12px}
+
+/* Channel summary badges */
+.badge.success{background:#065f46;border-color:#065f46}
+.badge.warn{background:#92400e;border-color:#92400e}

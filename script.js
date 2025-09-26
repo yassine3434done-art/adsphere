@@ -30,7 +30,6 @@ function readLiveCache(){ return readJSON(LIVE_RATES_CACHE_KEY) }
 function writeLiveCache(obj){ writeJSON(LIVE_RATES_CACHE_KEY, obj) }
 
 async function fetchLiveRates(){
-  // يستدعي وسيطك على Netlify (يجب أن تنشر function باسم fx داخل /netlify/functions أو /api)
   const url = `/api/fx?base=MAD&symbols=USD,EUR`;
   const res = await fetch(url, { cache:'no-store' });
   if(!res.ok) throw new Error('FX HTTP error');
@@ -49,7 +48,6 @@ async function fetchLiveRates(){
   writeLiveCache(payload);
   return payload;
 }
-
 async function ensureLiveRatesFresh(){
   const c = readLiveCache();
   if(c && (Date.now() - c.ts) < LIVE_RATES_TTL_MS) return c;
@@ -98,7 +96,6 @@ function rate(from, to){
   };
   return (v)=> fromMAD(toMAD(v, from), to);
 }
-
 function money(v, ccy){
   const info = CCY_INFO[ccy] || CCY_INFO.MAD;
   return `${Number(v||0).toLocaleString('en-US')} ${info.sign}`;
@@ -129,7 +126,7 @@ const useLiveRatesEl = document.getElementById('useLiveRates');
 const saveSettingsBtn= document.getElementById('saveSettings');
 const saveSettingsMsg= document.getElementById('saveSettingsMsg');
 
-/* ---------- تنقل بين التبويبات ---------- */
+/* ---------- تنقّل بين التبويبات (أزرار) ---------- */
 buttons.forEach(btn=>{
   btn.addEventListener('click', ()=>{
     const id = btn.dataset.go;
@@ -140,15 +137,32 @@ buttons.forEach(btn=>{
     window.scrollTo({ top:0, behavior:'smooth' });
     buttons.forEach(b=>b.classList.remove('primary'));
     btn.classList.add('primary');
+    // حدث الهاش حتى يبقى التنقل شغال لو تعطل JS لاحقاً
+    location.hash = `#${id}`;
   });
 });
+
+/* ---------- تنقّل احتياطي عبر الهاش ---------- */
+function syncNavActive(id){
+  buttons.forEach(b=>{
+    b.classList.toggle('primary', b.dataset.go === id);
+  });
+}
+function showByHash(){
+  const id = (location.hash || '#home').replace('#','');
+  sections.forEach(s=>s.classList.add('hidden'));
+  const el = document.getElementById(id);
+  if(el) el.classList.remove('hidden');
+  if(id==='settings') settingsLoad();
+  syncNavActive(id);
+}
+window.addEventListener('hashchange', showByHash);
 
 /* ---------- حملات: حفظ/تحميل/رسم ---------- */
 function saveCamps(arr){
   savedCamps = arr;
   writeJSON(LS_CAMPS_KEY, savedCamps);
 }
-
 function renderCampItem(o){
   const d = document.createElement('div');
   d.className = 'item panel';
@@ -166,17 +180,14 @@ function renderCampItem(o){
     </div>`;
   list.prepend(d);
 }
-
 function rerenderCampList(){
   if(!list) return;
   list.innerHTML = '';
   savedCamps.forEach(renderCampItem);
-  // KPIs
   document.querySelector('#kpi-campaigns .v').textContent = savedCamps.length;
   updateBudgetKPI();
   updateClicksKPI();
 }
-
 function updateBudgetKPI(){
   const cur = getSelectedCcy();
   const sumInCur = savedCamps.reduce((a,c)=>{
@@ -191,8 +202,6 @@ function updateClicksKPI(){
   const el = document.getElementById('kpi-clicks');
   if(el) el.querySelector('.v').textContent = Number(total).toLocaleString('en-US');
 }
-
-/* حفظ حملة جديدة */
 if(saveBtn){
   saveBtn.addEventListener('click', ()=>{
     const cur = getSelectedCcy();
@@ -208,10 +217,8 @@ if(saveBtn){
       clicks:+(document.getElementById('cClicks').value || 0)
     };
     if(o.budget<=0){ alert('الميزانية غير صالحة'); return; }
-
     saveCamps([o, ...savedCamps]);
     rerenderCampList();
-
     const msg = document.getElementById('saveMsg');
     if(msg){ msg.textContent='👌 تم الحفظ محليًا (localStorage).'; setTimeout(()=>msg.textContent='',2500) }
   });
@@ -255,16 +262,18 @@ if(exportPDFBtn){
 /* ---------- العملة والواجهة ---------- */
 function refreshCurrencyUI(){
   const cur = getSelectedCcy();
-  if(budgetLabel)  budgetLabel.textContent  = CCY_INFO[cur].symbol;
-  if(budgetLabel2) budgetLabel2.textContent = CCY_INFO[cur].symbol;
+  const info = CCY_INFO[cur] || CCY_INFO.MAD;
+  if(budgetLabel)  budgetLabel.textContent  = info.symbol;
+  if(budgetLabel2) budgetLabel2.textContent = info.symbol;
+  if(ccySelect)    ccySelect.value = cur;
   updateBudgetKPI();
-  rerenderCampList();
 }
 if(ccySelect){
   ccySelect.value = getSelectedCcy();
   ccySelect.addEventListener('change', ()=>{
     setSelectedCcy(ccySelect.value);
     refreshCurrencyUI();
+    rerenderCampList();
   });
 }
 
@@ -276,7 +285,6 @@ function settingsLoad(){
   rateEurToMadEl.value = getEurToMad().toFixed(4);
   if(useLiveRatesEl) useLiveRatesEl.checked = isUseLiveRates();
 }
-
 if(saveSettingsBtn){
   saveSettingsBtn.addEventListener('click', async ()=>{
     const ccy = defaultCcyEl.value;
@@ -305,14 +313,11 @@ if(saveSettingsBtn){
 
 /* ---------- إقلاع التطبيق ---------- */
 (function boot(){
-  // عرض الديفولت
   rerenderCampList();
-
-  // أسعار حيّة عند الإقلاع إذا كانت مفعّلة
+  showByHash(); // عرض القسم من الهاش أولاً
   (async ()=>{
     if(isUseLiveRates()){ await ensureLiveRatesFresh(); }
     refreshCurrencyUI();
     settingsLoad();
   })();
 })();
-```0
