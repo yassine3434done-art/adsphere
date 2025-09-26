@@ -1,0 +1,8 @@
+[functions]
+  directory = "netlify/functions"
+
+# توجيه أي طلب /api/* إلى وظائف نتلايفي
+[[redirects]]
+  from = "/api/*"
+  to   = "/.netlify/functions/:splat"
+  status = 200
