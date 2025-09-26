@@ -113,3 +113,5 @@ img,video{max-width:100%;height:auto}
 /* شارات ملخص القنوات (إن لم تكن مضافة) */
 .badge.success{background:#065f46;border-color:#065f46}
 .badge.warn{background:#92400e;border-color:#92400e}
+
+.ccy-wrap{ display:inline-block; margin-inline-start:8px }

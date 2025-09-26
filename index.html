@@ -19,22 +19,23 @@
         <div class="brand-sub">لوحة تجريبية لإدارة الحملات وتحليل الأداء (MVP)</div>
       </div>
     </div>
-
     <nav>
-      <!-- أزرار تُحدّث الهاش لضمان التنقّل حتى لو تعطّل جزء من JS -->
-      <button class="btn primary" data-go="home" onclick="location.hash='#home'">الرئيسية</button>
-      <button class="btn" data-go="campaigns" onclick="location.hash='#campaigns'">الحملات</button>
-      <button class="btn" data-go="analytics" onclick="location.hash='#analytics'">التحليلات</button>
-      <button class="btn" data-go="roadmap" onclick="location.hash='#roadmap'">خارطة الطريق</button>
-      <button class="btn" data-go="settings" onclick="location.hash='#settings'">الإعدادات</button>
+  <button class="btn primary" data-go="home">الرئيسية</button>
+  <button class="btn" data-go="campaigns">الحملات</button>
+  <button class="btn" data-go="analytics">التحليلات</button>
+  <button class="btn" data-go="roadmap">خارطة الطريق</button>
+  <button class="btn" data-go="settings">الإعدادات</button>
+  <button class="btn" data-go="contact">تواصل</button>
 
-      <!-- Currency switcher -->
-      <select id="ccySelect" class="ccy-select" aria-label="تغيير العملة">
-        <option value="MAD">MAD (DH)</option>
-        <option value="USD">USD ($)</option>
-        <option value="EUR">EUR (€)</option>
-      </select>
-    </nav>
+  <!-- Currency switcher (يظهر بالرئيسية فقط) -->
+  <div id="ccyWrap" class="ccy-wrap">
+    <select id="ccySelect" class="ccy-select">
+      <option value="MAD">MAD (DH)</option>
+      <option value="USD">USD ($)</option>
+      <option value="EUR">EUR (€)</option>
+    </select>
+  </div>
+</nav>
   </header>
 
   <main class="container">
@@ -60,7 +61,7 @@
       </div>
 
       <div class="row">
-        <button class="btn" data-go="campaigns" onclick="location.hash='#campaigns'">إدارة الحملات</button>
+        <button class="btn" data-go="campaigns">إدارة الحملات</button>
         <button id="exportPDF" class="btn">تصدير تقرير (PDF)</button>
       </div>
     </section>
@@ -68,7 +69,6 @@
     <!-- Campaigns -->
     <section id="campaigns" class="section panel hidden">
       <h2>الحملات</h2>
-
       <div class="grid cols-2 gap">
         <div class="panel">
           <h3 class="m0">إضافة حملة جديدة</h3>
@@ -77,7 +77,6 @@
               <label>اسم الحملة</label>
               <input id="cName" type="text" placeholder="مثال: حملة الافتتاح"/>
             </div>
-
             <div>
               <label>القناة</label>
               <select id="cChannel">
@@ -86,12 +85,10 @@
                 <option>LinkedIn</option>
               </select>
             </div>
-
             <div>
               <label>الميزانية (<span id="budgetLabel2">MAD</span>)</label>
               <input id="cBudget" type="number" min="10" step="1" value="500"/>
             </div>
-
             <div class="grid cols-2 gap">
               <div>
                 <label>تاريخ البداية</label>
@@ -102,7 +99,6 @@
                 <input id="cEnd" type="date"/>
               </div>
             </div>
-
             <div>
               <label>الهدف</label>
               <select id="cGoal">
@@ -112,28 +108,23 @@
                 <option>الوعي بالعلامة</option>
               </select>
             </div>
-
             <div>
               <label>نقرات متوقعة (اختياري)</label>
               <input id="cClicks" type="number" min="0" step="1" placeholder="مثال: 1500"/>
             </div>
-
             <div>
               <label>ملاحظة مختصرة</label>
               <textarea id="cDesc" rows="2" placeholder="تفاصيل الجمهور/العرض"></textarea>
             </div>
-
             <div class="row">
               <button id="saveCamp" class="btn primary">حفظ</button>
               <span id="saveMsg" class="muted"></span>
             </div>
           </div>
         </div>
-
         <div class="panel">
           <h3 class="m0">آخر الحملات</h3>
           <div id="campList" class="list"></div>
-
           <div class="row">
             <button id="exportCSV" class="btn">تصدير CSV</button>
             <button id="clearAll" class="btn">حذف الكل</button>
@@ -146,51 +137,45 @@
     <section id="analytics" class="section panel hidden">
       <h2>التحليلات — نظرة بصرية</h2>
       <p class="muted">رسوم بسيطة: CTR وCPC (توضيحي).</p>
-
       <div class="grid cols-2 gap">
         <div class="panel">
           <h3 class="m0">CTR عبر الشهور</h3>
           <div class="bar"><div class="bar-fill" style="width:64%"></div></div>
           <div class="muted">المتوسط التقريبي: 3.4%</div>
         </div>
-
         <div class="panel">
           <h3 class="m0">CPC — متوسط تقديري</h3>
           <div class="bar"><div class="bar-fill" style="width:32%"></div></div>
           <div class="muted">المتوسط التقريبي: 2.1</div>
         </div>
       </div>
-
       <!-- Channel Summary -->
-<div class="panel">
-  <h3 class="m0">ملخص القنوات</h3>
-  <div class="list">
-    <div class="item panel row" style="justify-content:space-between">
-      <div><strong>Meta</strong> — Facebook/Instagram</div>
-      <div>
-        <span class="badge">CPC 1.9 درهم</span>
-        <span class="badge success">CTR 3.8%</span>
+      <div class="panel">
+        <h3 class="m0">ملخص القنوات</h3>
+        <div class="list">
+          <div class="item panel row" style="justify-content:space-between">
+            <div><strong>Meta</strong> — Facebook/Instagram</div>
+            <div>
+              <span class="badge">CPC 1.9 درهم</span>
+              <span class="badge success">CTR 3.8%</span>
+            </div>
+          </div>
+          <div class="item panel row" style="justify-content:space-between">
+            <div><strong>TikTok</strong> — Short Video</div>
+            <div>
+              <span class="badge">CPC 1.4 درهم</span>
+              <span class="badge success">CTR 4.5%</span>
+            </div>
+          </div>
+          <div class="item panel row" style="justify-content:space-between">
+            <div><strong>LinkedIn</strong> — B2B</div>
+            <div>
+              <span class="badge">CPC 3.2 درهم</span>
+              <span class="badge warn">CTR 1.9%</span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div class="item panel row" style="justify-content:space-between">
-      <div><strong>TikTok</strong> — Short Video</div>
-      <div>
-        <span class="badge">CPC 1.4 درهم</span>
-        <span class="badge success">CTR 4.5%</span>
-      </div>
-    </div>
-
-    <div class="item panel row" style="justify-content:space-between">
-      <div><strong>LinkedIn</strong> — B2B</div>
-      <div>
-        <span class="badge">CPC 3.2 درهم</span>
-        <span class="badge warn">CTR 1.9%</span>
-      </div>
-    </div>
-  </div>
-</div>
-
       <div class="panel">
         <h3 class="m0">ملاحظات تحسين</h3>
         <ul class="roadmap">
@@ -217,7 +202,6 @@
     <section id="settings" class="section panel hidden">
       <h2>الإعدادات</h2>
       <p class="muted">اختر العملة الافتراضية وحدّد معدّلات التحويل أو فعّل الأسعار الحيّة (عبر خادم Netlify).</p>
-
       <div class="grid cols-2 gap">
         <div class="panel">
           <div class="grid gap">
@@ -229,7 +213,6 @@
                 <option value="EUR">EUR (€)</option>
               </select>
             </div>
-
             <div class="grid cols-2 gap">
               <div>
                 <label>معدل 1 USD → MAD</label>
@@ -240,18 +223,15 @@
                 <input id="rateEurToMad" type="number" min="0.01" step="0.01" placeholder="مثال 11.00"/>
               </div>
             </div>
-
             <div>
               <label><input type="checkbox" id="useLiveRates"/> استعمال أسعار صرف حيّة (عبر /api/fx)</label>
             </div>
-
             <div class="row">
               <button id="saveSettings" class="btn primary">حفظ الإعدادات</button>
               <span id="saveSettingsMsg" class="muted"></span>
             </div>
           </div>
         </div>
-
         <div class="panel">
           <h3 class="m0">معلومات</h3>
           <ul class="roadmap">
@@ -263,6 +243,18 @@
       </div>
     </section>
 
+    <!-- Contact -->
+    <section id="contact" class="section panel hidden">
+      <h2>تواصل معنا</h2>
+      <p class="muted">يمكنك مراسلتنا عبر النموذج أدناه:</p>
+      <form action="https://formspree.io/f/mdkwaokw" method="POST" class="grid gap">
+        <input type="text" name="name" placeholder="الإسم" required>
+        <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+        <textarea name="message" rows="4" placeholder="الرسالة" required></textarea>
+        <button type="submit" class="btn primary">إرسال</button>
+      </form>
+    </section>
+
   </main>
 
   <footer class="container muted small">
@@ -272,4 +264,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-```0

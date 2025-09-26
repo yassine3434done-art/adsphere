@@ -125,6 +125,7 @@ const rateEurToMadEl = document.getElementById('rateEurToMad');
 const useLiveRatesEl = document.getElementById('useLiveRates');
 const saveSettingsBtn= document.getElementById('saveSettings');
 const saveSettingsMsg= document.getElementById('saveSettingsMsg');
+const ccyWrap = document.getElementById('ccyWrap');
 
 /* ---------- تنقّل بين التبويبات (أزرار) ---------- */
 buttons.forEach(btn=>{
@@ -136,6 +137,7 @@ buttons.forEach(btn=>{
     if(id==='settings') settingsLoad();
     window.scrollTo({ top:0, behavior:'smooth' });
     buttons.forEach(b=>b.classList.remove('primary'));
+    if (ccyWrap) ccyWrap.style.display = (id === 'home') ? 'inline-block' : 'none';
     btn.classList.add('primary');
     // حدث الهاش حتى يبقى التنقل شغال لو تعطل JS لاحقاً
     location.hash = `#${id}`;
@@ -314,6 +316,7 @@ if(saveSettingsBtn){
 /* ---------- إقلاع التطبيق ---------- */
 (function boot(){
   rerenderCampList();
+  if (ccyWrap) ccyWrap.style.display = 'inline-block'; // البداية على الرئيسية
   showByHash(); // عرض القسم من الهاش أولاً
   (async ()=>{
     if(isUseLiveRates()){ await ensureLiveRatesFresh(); }
