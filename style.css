@@ -65,3 +65,51 @@ footer{text-align:center;padding:20px;color:#94a3b8;font-size:12px;border-top:1p
 /* Channel summary badges */
 .badge.success{background:#065f46;border-color:#065f46}
 .badge.warn{background:#92400e;border-color:#92400e}
+
+/* تحسينات عامة للهاتف */
+html,body{overflow-x:hidden}
+img,video{max-width:100%;height:auto}
+
+/* صفوف وأزرار تلف تلقائياً */
+.row{flex-wrap:wrap}
+
+/* على الشاشات المتوسطة */
+@media (max-width: 900px){
+  .container{padding:16px}
+  header{align-items:flex-start;gap:12px}
+  header nav{width:100%}
+  .brand{min-width:0}
+  .brand-title{font-size:16px}
+  .brand-sub{font-size:11px}
+  .logo-frame{width:40px;height:40px}
+
+  /* خلي الأزرار تتوزع سطرين إذا تزاحموا */
+  header nav .btn{flex:1 1 auto}
+
+  /* حول الأعمدة إلى عمود واحد */
+  .cols-2{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .panel{padding:16px}
+  .kpi .v{font-size:20px}
+}
+
+/* على الشاشات الصغيرة جداً */
+@media (max-width: 600px){
+  .container{padding:12px}
+  header{flex-direction:column;align-items:stretch}
+  .brand{justify-content:flex-start}
+  header nav{gap:6px}
+  .btn{padding:10px 12px;font-size:13px}
+  .ccy-select{width:100%}
+
+  /* ترتيب عناصر الحملة formular */
+  .grid.cols-2{grid-template-columns:1fr}
+  input,select,textarea{font-size:13px}
+
+  /* عناصر الملخص داخل Analytics */
+  .list .item.panel{padding:12px}
+}
+
+/* شارات ملخص القنوات (إن لم تكن مضافة) */
+.badge.success{background:#065f46;border-color:#065f46}
+.badge.warn{background:#92400e;border-color:#92400e}
