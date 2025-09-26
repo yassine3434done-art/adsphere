@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>AdSphere — لوحة إدارة الحملات</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="container">
+    <div class="brand">
+      <div class="logo-frame">
+        <img src="assets/logo.png" class="logo-img" alt="AdSphere logo"/>
+      </div>
+      <div>
+        <div class="brand-title">AdSphere</div>
+        <div class="brand-sub">لوحة تجريبية لإدارة الحملات وتحليل الأداء (MVP)</div>
+      </div>
+    </div>
+
+    <nav>
+      <button class="btn primary" data-go="home">الرئيسية</button>
+      <button class="btn" data-go="campaigns">الحملات</button>
+      <button class="btn" data-go="analytics">التحليلات</button>
+      <button class="btn" data-go="roadmap">خارطة الطريق</button>
+      <button class="btn" data-go="settings">الإعدادات</button>
+
+      <!-- Currency switcher -->
+      <select id="ccySelect" class="ccy-select">
+        <option value="MAD">MAD (DH)</option>
+        <option value="USD">USD ($)</option>
+        <option value="EUR">EUR (€)</option>
+      </select>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- Home / Dashboard -->
+    <section id="home" class="section panel">
+      <h2>نظرة عامة على الأداء</h2>
+      <p class="muted">هذه اللوحة تعرض مؤشرات أساسية. يتم تحديث إجمالي الميزانية حسب العملة المختارة.</p>
+
+      <div class="kpis">
+        <div class="kpi" id="kpi-campaigns">
+          <div class="t">عدد الحملات النشطة</div>
+          <div class="v">0</div>
+        </div>
+        <div class="kpi" id="kpi-budget">
+          <div class="t">إجمالي الميزانية (<span id="budgetLabel">MAD</span>)</div>
+          <div class="v">0 DH</div>
+        </div>
+        <div class="kpi" id="kpi-clicks">
+          <div class="t">إجمالي النقرات (توضيحي)</div>
+          <div class="v">0</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn" data-go="campaigns">إدارة الحملات</button>
+        <button id="exportPDF" class="btn">تصدير تقرير (PDF)</button>
+      </div>
+    </section>
+
+    <!-- Campaigns -->
+    <section id="campaigns" class="section panel hidden">
+      <h2>الحملات</h2>
+
+      <div class="grid cols-2 gap">
+        <div class="panel">
+          <h3 class="m0">إضافة حملة جديدة</h3>
+          <div class="grid gap">
+            <div>
+              <label>اسم الحملة</label>
+              <input id="cName" type="text" placeholder="مثال: حملة الافتتاح"/>
+            </div>
+
+            <div>
+              <label>القناة</label>
+              <select id="cChannel">
+                <option>Meta (Facebook/Instagram)</option>
+                <option>TikTok</option>
+                <option>LinkedIn</option>
+              </select>
+            </div>
+
+            <div>
+              <label>الميزانية (<span id="budgetLabel2">MAD</span>)</label>
+              <input id="cBudget" type="number" min="10" step="1" value="500"/>
+            </div>
+
+            <div class="grid cols-2 gap">
+              <div>
+                <label>تاريخ البداية</label>
+                <input id="cStart" type="date"/>
+              </div>
+              <div>
+                <label>تاريخ النهاية</label>
+                <input id="cEnd" type="date"/>
+              </div>
+            </div>
+
+            <div>
+              <label>الهدف</label>
+              <select id="cGoal">
+                <option>زيارات الموقع</option>
+                <option>رسائل/Leads</option>
+                <option>مبيعات</option>
+                <option>الوعي بالعلامة</option>
+              </select>
+            </div>
+
+            <div>
+              <label>نقرات متوقعة (اختياري)</label>
+              <input id="cClicks" type="number" min="0" step="1" placeholder="مثال: 1500"/>
+            </div>
+
+            <div>
+              <label>ملاحظة مختصرة</label>
+              <textarea id="cDesc" rows="2" placeholder="تفاصيل الجمهور/العرض"></textarea>
+            </div>
+
+            <div class="row">
+              <button id="saveCamp" class="btn primary">حفظ</button>
+              <span id="saveMsg" class="muted"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 class="m0">آخر الحملات</h3>
+          <div id="campList" class="list"></div>
+
+          <div class="row">
+            <button id="exportCSV" class="btn">تصدير CSV</button>
+            <button id="clearAll" class="btn">حذف الكل</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analytics -->
+    <section id="analytics" class="section panel hidden">
+      <h2>التحليلات — نظرة بصرية</h2>
+      <p class="muted">رسوم بسيطة: CTR وCPC (توضيحي).</p>
+
+      <div class="grid cols-2 gap">
+        <div class="panel">
+          <h3 class="m0">CTR عبر الشهور</h3>
+          <div class="bar">
+            <div class="bar-fill" style="width:64%"></div>
+          </div>
+          <div class="muted">المتوسط التقريبي: 3.4%</div>
+        </div>
+
+        <div class="panel">
+          <h3 class="m0">CPC — متوسط تقديري</h3>
+          <div class="bar">
+            <div class="bar-fill" style="width:32%"></div>
+          </div>
+          <div class="muted">المتوسط التقريبي: 2.1</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="m0">ملاحظات تحسين</h3>
+        <ul class="roadmap">
+          <li>اختبار تنويعات إبداعية على TikTok لرفع CTR بنسبة +10%.</li>
+          <li>تقليل استهداف LinkedIn للمناصب العليا فقط لتخفيض CPC.</li>
+          <li>مراجعة أوقات النشر لمواءمة سلوك الجمهور المحلي.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Roadmap / Compliance -->
+    <section id="roadmap" class="section panel hidden">
+      <h2>خارطة الطريق والضوابط (Compliance)</h2>
+      <ul class="roadmap">
+        <li>Q1: طلب ولوج رسمي لواجهات Meta Marketing API و TikTok Business API و LinkedIn Marketing API.</li>
+        <li>Q2: تكامل أولي مع قناة واحدة (Meta) ثم التوسع لباقي القنوات.</li>
+        <li>Q3: التزام بسياسات المنصات + أذونات (scopes) + حسابات تجارية موثقة.</li>
+        <li>Q4: إعداد الشروط وسياسة الخصوصية، التسجيل لدى CNDP (القانون 09-08)، ونشر صفحات TOS/Privacy.</li>
+        <li>الأمان والامتثال: SSL، إدارة الصلاحيات، تدقيق الوصول للبيانات.</li>
+      </ul>
+    </section>
+
+    <!-- Settings -->
+    <section id="settings" class="section panel hidden">
+      <h2>الإعدادات</h2>
+      <p class="muted">اختر العملة الافتراضية وحدّد معدّلات التحويل أو فعّل الأسعار الحيّة (عبر خادم Netlify).</p>
+
+      <div class="grid cols-2 gap">
+        <div class="panel">
+          <div class="grid gap">
+            <div>
+              <label>العملة الافتراضية</label>
+              <select id="defaultCcy">
+                <option value="MAD">MAD (DH)</option>
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+              </select>
+            </div>
+
+            <div class="grid cols-2 gap">
+              <div>
+                <label>معدل 1 USD → MAD</label>
+                <input id="rateUsdToMad" type="number" min="0.01" step="0.01" placeholder="مثال 10.00"/>
+              </div>
+              <div>
+                <label>معدل 1 EUR → MAD</label>
+                <input id="rateEurToMad" type="number" min="0.01" step="0.01" placeholder="مثال 11.00"/>
+              </div>
+            </div>
+
+            <div>
+              <label><input type="checkbox" id="useLiveRates"/> استعمال أسعار صرف حيّة (عبر /api/fx)</label>
+            </div>
+
+            <div class="row">
+              <button id="saveSettings" class="btn primary">حفظ الإعدادات</button>
+              <span id="saveSettingsMsg" class="muted"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 class="m0">معلومات</h3>
+          <ul class="roadmap">
+            <li>يتم حفظ الإعدادات محليًا (localStorage).</li>
+            <li>إذا فُعّلت الأسعار الحيّة، سيتم الجلب من <code>/api/fx?base=MAD&amp;symbols=USD,EUR</code>.</li>
+            <li>عند التعذّر، يتم الرجوع للقيم اليدوية.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="container muted small">
+    AdSphere © نموذج تجريبي للعرض والتطوير — جميع البيانات هنا توضيحية.
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+```0
